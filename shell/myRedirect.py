@@ -13,6 +13,9 @@ def redirOut(args):
     args.remove('>') # remove output indicator from command line args
     args.remove(args[0])
 
+    return cmd
+
+
 def redirIn(args):
     os.close(0) # keyboard was set to fd 0
 
@@ -25,3 +28,5 @@ def redirIn(args):
     cmd = args[in_indicate-1] # get command
     args.remove('<') # remove input indicator from command line args
     args.remove(args[0])
+
+    return cmd
