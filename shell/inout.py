@@ -1,39 +1,43 @@
 from os import read, write
 
-inputBuff = None
-strBuff = ""
+inputBuff = 0 # list of chars, used to read max 100 bytes from keyboard 
+nextChar = 0 # index of the next char in buff
+
 
 def myReadLine():
-    global strBuff
-
-    while True: # read lines indefinitely
+    global nextChar, inputBuff
+    line = "" # reading line... add chars to line
+    
+    currChar = myGetChar() # get input char from user keyboard
+    while (currChar != '' and currChar != "EOF"): # while not reached EOF
+        line += currChar
         currChar = myGetChar()
 
-        if len(currChar) == 0: # empty string
-            return currChar
+    inputBuff = 0
+    nextChar = 0
 
-        if currChar == '\n': # end of line
-            line = strBuff
-            strBuff = ""
-            return line
-        else: 
-            strBuff = strBuff + currChar # add to strBuff
-        
+    return line
+
 
 def myGetChar():
+    global nextChar
     global inputBuff
-    global strBuff
 
-    if inputBuff == None or len(strBuff) == 0:
-        inputBuff = read(0, 100)
-        strBuff = inputBuff.decode()
+    if nextChar == inputBuff:  # buffer empty
+        nextChar = 0; 
+        inputBuff = read(0, 100) # (fd 0 is keyboard, num bytes)
 
-    if len(strBuff) > 0:
-        firstChar = strBuff[0]
-        strBuff = strBuff[1:]
-        return firstChar
+        if inputBuff == None: # end of file
+            return "EOF"
+        
+    if nextChar < len(inputBuff) - 1: # still reading input buffer
+        strBuff = inputBuff.decode() # .decode(): bytes to chars
+        currChar = strBuff[nextChar] # get a char from buffer
+        nextChar += 1
+        return currChar
     else:
-        return strBuff
+        return "EOF" # reached buffer end
 
+    
 def writeLine(line):
-    write(1, line.encode())
+    write(1, line.encode()) # .encode(): chars to bytes
