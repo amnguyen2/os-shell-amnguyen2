@@ -13,19 +13,7 @@ def main():
 
         if len(inputBuff) > 0:
             inputHandler(inputBuff)
-        """
-        rc = os.fork() # rc = return child
 
-        if rc < 0:
-            writeLine("Child fork fell on its face :(")
-            sys.exit(1)
-        elif rc == 0:
-            writeLine("Trying to complete commands...")
-            doCommand(args)
-            sys.exit(1)
-        else:
-            os.wait()
-        """
 
 def inputHandler(inputBuff):
     if len(inputBuff) == 0:
@@ -39,14 +27,16 @@ def inputHandler(inputBuff):
         
     if args[0] == "pwd": # PrintWorkingDirectory
         writeLine(os.getcwd() + "\n") # os.getcwd() returns CurrentWorkingDir
+
     elif args[0] == "cd": # ChangeDirectory
         try:
-            if len(args) < 2:
+            if len(args) < 2: # no args for cd command
                 return
             else:
                 os.chdir(args[1])
         except:
             writeLine("cd %s: No such file or directory\n" % args[1])
+
     else:
         rc = os.fork()
 
