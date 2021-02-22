@@ -1,6 +1,7 @@
 import os, sys, re
 from inout import myReadLine, writeLine
 from myRedirect import redirOut, redirIn
+from myPiping import pipeCmd
 
 def main():
 
