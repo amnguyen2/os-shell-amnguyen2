@@ -1,13 +1,14 @@
 import os, sys, re
 from inout import myReadLine, writeLine
+from myRedirect import redirOut, redirIn
 
 def main():
 
     while True: # shell runs indefinitely
         if 'PS1' in os.environ:
-            os.write(1, (os.environ['PS1']).encode())
+            writeLine(os.environ['PS1'])
         else:
-            os.write(1, ("$ ").encode())
+            writeLine("$ ")
             
         inputBuff = myReadLine()
 
@@ -38,30 +39,36 @@ def inputHandler(inputBuff):
             writeLine("cd %s: No such file or directory\n" % args[1])
 
     else:
-        rc = os.fork()
+        rc = os.fork() # os.fork() returns child's process ID
 
-        if rc < 0:
+        if rc < 0: # fork failed
             os.write(2, ("Fork failed... returning %d\n" % rc).encode())
             sys.exit(1) # unsuccessful termination :(
         elif rc == 0:
-            doCommand(args)
-            sys.exit(0) # successful termination :)
-        else:
-            os.wait()
+            
+            if '<' in args: # redir into indicator
+                redirIn(args)
+            
+            elif '>' in args: # redir out to indicator
+                redirOut(args)
 
-                    
+            elif '|' in args: # pipe indicator
+                pipeCmd(args)
+                
+            else:
+                doCommand(args)
+                sys.exit(0) # successful termination :)
+
+            
 def doCommand(args):
-    path = os.environ["PATH"]
-    
     for dir in re.split(":", os.environ["PATH"]): # try each directory in path
         program = "%s%s" % (dir, args[0])
-
         try:
             os.execve(program, args, os.environ) # try to exec program
         except FileNotFoundError:                # ...expected
             pass                                 # ...fail quietly
 
-    writeLine("%s: command not found\n" % args[0])
+    os.write(2, ("%s: could not execute\n" % args[0]).encode())
     sys.exit(1) # terminate with error
 
     
