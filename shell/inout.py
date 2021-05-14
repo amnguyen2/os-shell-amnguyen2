@@ -10,6 +10,8 @@ def myReadLine():
     
     currChar = myGetChar() # get input char from user keyboard
     while (currChar != '' and currChar != "EOF"): # while not reached EOF
+        if currChar == '\n':
+            return line
         line += currChar
         currChar = myGetChar()
 
