@@ -1,14 +1,11 @@
 ## Unix Shell
 
-Your goal for this lab is to build a user shell for a Unix operating
-system. In general, you are expected to mimic some of the behaviors of
-the bash shell you have been using. The provided testing
-harness will compare the output of your shell to the output of the
+A user shell for a Unix operating system. In general, you are expected 
+to mimic some of the behaviors of the bash shell you have been using. 
+The provided testing harness will compare the output of your shell to the output of the
 bash shell to test for correctness.
 
-### Requirements
-
-Your shell should meet the following requirements:
+### Functionality
 
 1. Prints a prompt string specified by shell variable PS1 when expecting a command (if PS1 is not set, the default prompt should be "$ ").
 2. Accepts the standard unix command shell syntex for specifying commands and parameters
@@ -27,7 +24,6 @@ Your shell should meet the following requirements:
 
 ### Python Libraries
 
-You should only need the following python libraries to complete the lab:
 - os
 - sys
 - re
