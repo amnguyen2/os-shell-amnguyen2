@@ -1,7 +1,6 @@
 ## Unix Shell
 
-A user shell for a Unix operating system. In general, you are expected 
-to mimic some of the behaviors of the bash shell you have been using. 
+A user shell for a Unix operating system, mimics some of the behaviors of a bash shell. 
 The provided testing harness will compare the output of your shell to the output of the
 bash shell to test for correctness.
 
